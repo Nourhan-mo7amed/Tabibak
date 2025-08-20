@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "486271465621",
+    "project_id": "tabibak-bbf2f",
+    "storage_bucket": "tabibak-bbf2f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486271465621:android:d8083cfd50b624cb9f039c",
+        "android_client_info": {
+          "package_name": "com.example.cinic_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDU5HvbND2mafPflT4qit1LCnLqN1tcL3k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
