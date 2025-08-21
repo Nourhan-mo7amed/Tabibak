@@ -24,20 +24,13 @@ class AuthTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
-      obscureText: isPasswordField || isConfirmPasswordField
-          ? isObscure
-          : false,
+      obscureText: isPasswordField || isConfirmPasswordField ? isObscure : false,
       decoration: InputDecoration(
         hintText: hintText,
         filled: true,
         fillColor: Colors.white,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 15,
-        ),
-        prefixIcon: prefixIcon != null
-            ? Icon(prefixIcon, color: Colors.grey)
-            : null,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        prefixIcon: prefixIcon != null ? Icon(prefixIcon, color: Colors.grey) : null,
         suffixIcon: (isPasswordField || isConfirmPasswordField)
             ? IconButton(
                 icon: Icon(
@@ -50,6 +43,14 @@ class AuthTextField extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
           borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: const BorderSide(color: Colors.grey, width: 1),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: const BorderSide(color: Color(0xff285DD8), width: 2),
         ),
       ),
     );

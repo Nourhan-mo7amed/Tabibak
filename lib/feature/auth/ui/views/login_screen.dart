@@ -23,6 +23,13 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isPasswordVisible = false;
 
   @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -48,6 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: passwordController,
                       hintText: "Password",
                       icon: Icons.lock_outline,
+                      isPasswordField: true, // تمرير isPasswordField
                       isObscure: !isPasswordVisible,
                       onToggleVisibility: () {
                         setState(() {
@@ -89,6 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
     required TextEditingController controller,
     required String hintText,
     required IconData icon,
+    bool isPasswordField = false, // إضافة isPasswordField
     bool isObscure = false,
     VoidCallback? onToggleVisibility,
   }) {
@@ -96,6 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
       hintText: hintText,
       controller: controller,
       prefixIcon: icon,
+      isPasswordField: isPasswordField,
       isObscure: isObscure,
       onToggleVisibility: onToggleVisibility,
     );
@@ -107,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => ForgetPasswordScreen()),
+          MaterialPageRoute(builder: (_) => const ForgetPasswordScreen()),
         );
       },
       child: const Text(
@@ -187,12 +197,12 @@ class _LoginScreenState extends State<LoginScreen> {
       if (role == "Doctor") {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => DoctorDashboardScreen()),
+          MaterialPageRoute(builder: (_) => const DoctorDashboardScreen()),
         );
       } else if (role == "Patient") {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => PatientDashboard()),
+          MaterialPageRoute(builder: (_) => const PatientDashboard()),
         );
       } else {
         _showSnackBar("Unknown user role!");

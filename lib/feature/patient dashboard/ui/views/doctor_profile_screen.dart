@@ -57,17 +57,17 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
           isBooked = true;
           requestStatus = data['status'] ?? 'pending';
 
-          // استرجاع التاريخ
+          // Retrieve the date
           if (data['date'] != null) {
             selectedDate = (data['date'] as Timestamp).toDate();
           }
 
-          // استرجاع الوقت
+          // Retrieve the time
           selectedTime = data['time'];
         });
       }
     } catch (e) {
-      _showSnackBar('خطأ أثناء التحقق من حالة الحجز');
+      _showSnackBar('Error while checking booking status');
     }
   }
 
@@ -84,7 +84,7 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
         setState(() => isFavorited = true);
       }
     } catch (e) {
-      _showSnackBar('خطأ أثناء التحقق من المفضلة');
+      _showSnackBar('Error while checking favorite status');
     }
   }
 
@@ -104,40 +104,40 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
           'timestamp': FieldValue.serverTimestamp(),
         });
         setState(() => isFavorited = true);
-        _showSnackBar('تمت الإضافة إلى المفضلة ❤️');
+        _showSnackBar('Added to favorites ❤️');
       } else {
         for (var doc in snapshot.docs) {
           await doc.reference.delete();
         }
         setState(() => isFavorited = false);
-        _showSnackBar('تمت الإزالة من المفضلة');
+        _showSnackBar('Removed from favorites');
       }
     } catch (e) {
-      _showSnackBar('حدث خطأ أثناء تعديل المفضلة');
+      _showSnackBar('An error occurred while modifying favorites');
     }
   }
 
   Future<void> _handleBooking() async {
     if (selectedDate == null || selectedTime == null) {
-      _showSnackBar('اختر تاريخ ووقت الحجز أولاً');
+      _showSnackBar('Select a date and time for the booking first');
       return;
     }
 
-    // تحويل الـ selectedTime (String) إلى ساعة ودقيقة
+    // Convert selectedTime (String) to hour and minute
     final timeParts = selectedTime!.replaceAll(RegExp(r'[APM]'), '').split(':');
     int hour = int.parse(timeParts[0]);
     int minute = int.parse(timeParts[1]);
 
-    // لو الوقت فيه "PM" و الساعة أقل من 12، نضيف 12 ساعة
+    // If the time contains "PM" and the hour is less than 12, add 12 hours
     if (selectedTime!.contains("PM") && hour < 12) {
       hour += 12;
     }
-    // لو الوقت فيه "AM" والساعة 12 نحولها إلى 0
+    // If the time contains "AM" and the hour is 12, convert it to 0
     if (selectedTime!.contains("AM") && hour == 12) {
       hour = 0;
     }
 
-    // دمج التاريخ والوقت في DateTime واحد
+    // Combine date and time into a single DateTime
     DateTime finalDateTime = DateTime(
       selectedDate!.year,
       selectedDate!.month,
@@ -152,17 +152,17 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
         'doctorId': widget.doctorData['id'],
         'patientId': patientId,
         'status': 'pending',
-        'date': Timestamp.fromDate(finalDateTime), // التاريخ + الوقت
-        'time': selectedTime, // نخزن الوقت كنص برضه لو حبيت تعرضه
+        'date': Timestamp.fromDate(finalDateTime), // Date + time
+        'time': selectedTime, // Store the time as text as well for display
         'timestamp': FieldValue.serverTimestamp(),
       });
       setState(() {
         isBooked = true;
         requestStatus = 'pending';
       });
-      _showSnackBar('تم إرسال طلب الحجز بنجاح!');
+      _showSnackBar('Booking request sent successfully!');
     } catch (e) {
-      _showSnackBar('حدث خطأ أثناء الحجز');
+      _showSnackBar('An error occurred during booking');
     } finally {
       setState(() => isBookingLoading = false);
     }
@@ -184,9 +184,9 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
         isBooked = false;
         requestStatus = 'none';
       });
-      _showSnackBar('تم إلغاء الحجز بنجاح!');
+      _showSnackBar('Booking canceled successfully!');
     } catch (e) {
-      _showSnackBar('حدث خطأ أثناء الإلغاء');
+      _showSnackBar('An error occurred during cancellation');
     } finally {
       setState(() => isBookingLoading = false);
     }
@@ -316,8 +316,8 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
                     Icons.local_hospital,
                     color: Colors.grey[600],
                     size: 20,
-                  ), // أيقونة التخصص
-                  const SizedBox(width: 6), // مسافة بين الأيقونة والكلام
+                  ), // Specialty icon
+                  const SizedBox(width: 6), // Space between icon and text
                   Text(
                     specialty,
                     style: TextStyle(color: Colors.grey[600], fontSize: 16),
@@ -326,7 +326,7 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
               ),
             ),
 
-            // هنا نضيف رقم التليفون والعنوان
+            // Add phone number and address here
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 16.0,
@@ -408,7 +408,7 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
               ),
             ),
 
-            // اختيار التاريخ
+            // Date selection
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -467,13 +467,13 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
                   ),
                   SizedBox(height: 16),
 
-                  // عرض الأوقات في شكل شبكة
+                  // Display times in a grid
                   GridView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3, // عدد الأعمدة
+                          crossAxisCount: 3, // Number of columns
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
                           childAspectRatio: 2.5,
