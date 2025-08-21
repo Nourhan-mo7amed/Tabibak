@@ -20,4 +20,4 @@ Watch the demo here:
 https://github.com/user-attachments/assets/4d667cfc-852e-4aa3-9144-8d27ee207383
 
 
-*(You can also add a thumbnail or GIF preview here if you want)*  
+
